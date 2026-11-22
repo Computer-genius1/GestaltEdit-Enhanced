@@ -3,7 +3,7 @@ name: Siri AI Diagnostic Build
 on:
   pull_request:
     branches:
-      - main
+      - fix/siri-ai-beta-enrollment-diagnostics
     paths:
       - "GestaltEdit/**"
       - "GestaltEdit.xcodeproj/**"
