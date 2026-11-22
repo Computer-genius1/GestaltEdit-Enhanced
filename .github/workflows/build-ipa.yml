@@ -1,0 +1,56 @@
+name: Build downloadable unsigned IPA
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "GestaltEdit/**"
+      - "GestaltEdit.xcodeproj/**"
+      - ".github/workflows/build-ipa.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: build-ipa-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: xcode-27
+    timeout-minutes: 30
+
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v7
+
+      - name: Build unsigned iOS archive
+        run: |
+          xcodebuild archive \
+            -project GestaltEdit.xcodeproj \
+            -scheme GestaltEdit \
+            -configuration Release \
+            -destination "generic/platform=iOS" \
+            -archivePath "$RUNNER_TEMP/GestaltEdit.xcarchive" \
+            CODE_SIGN_IDENTITY="" \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGNING_ALLOWED=NO
+
+      - name: Package unsigned IPA
+        run: |
+          mkdir -p "$RUNNER_TEMP/Payload"
+          cp -R \
+            "$RUNNER_TEMP/GestaltEdit.xcarchive/Products/Applications/GestaltEdit.app" \
+            "$RUNNER_TEMP/Payload/"
+          cd "$RUNNER_TEMP"
+          zip -qry "GestaltEdit-unsigned.ipa" Payload
+
+      - name: Upload IPA artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: GestaltEdit-unsigned-IPA
+          path: ${{ runner.temp }}/GestaltEdit-unsigned.ipa
+          if-no-files-found: error
+          retention-days: 14

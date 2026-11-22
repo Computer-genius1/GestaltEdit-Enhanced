@@ -171,8 +171,8 @@ final class GestaltViewModel: ObservableObject {
             notice = GestaltNotice(
                 kind: .riskWarning,
                 message: twoStage
-                    ? String(localized: "First, this will temporarily spoof an eligible device. Face ID and dictation may stop working while spoofed. Complete the Siri AI model download in Settings, then open Restore and use “After Model Download · Remove Device Spoof”. After removing the spoof and restarting, Face ID and dictation will work again while Siri AI settings stay enabled. A separate full backup is also saved before setup. System instability is possible.")
-                    : String(localized: "This device does not officially support Siri AI. Force enabling spoofs the product, hardware, and CPU model. It may temporarily break Face ID, cause system instability or boot loops, and could require restoring the device. A backup will be created before writing.")
+                    ? String(localized: "This temporarily spoofs an eligible device identity and may disrupt Face ID and dictation until the original identity is restored. It only stages local Apple Intelligence settings; it does not guarantee the “Try Siri AI (Beta)” enrollment option or bypass Apple's hardware, language, region, or account eligibility checks. Downloaded Apple Intelligence assets do not confirm that the new Siri beta is enrolled. After testing, use Restore → “After Model Download · Remove Device Spoof” and restart. A full backup is saved before setup. System instability is possible.")
+                    : String(localized: "This device does not officially support Siri AI. Force enabling spoofs the product, hardware, and CPU model, but cannot guarantee the “Try Siri AI (Beta)” option or bypass Apple's hardware, language, region, or account eligibility checks. It may temporarily break Face ID, cause system instability or boot loops, and could require restoring the device. A backup will be created before writing.")
             )
         }
     }

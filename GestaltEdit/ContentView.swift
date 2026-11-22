@@ -169,6 +169,12 @@ private struct TweakWorkbench: View {
                                     .accessibilityLabel("High Risk")
                             }
                         }
+                        if viewModel.requiresForcedAIEnable {
+                            Text("This stages legacy Apple Intelligence settings only. It cannot guarantee that iOS will show “Try Siri AI (Beta)” or approve this device for the new Siri experience. Apple's hardware, language, region, and account eligibility checks may still block enrollment.")
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
+                                .fixedSize(horizontal: false, vertical: true)
+                        }
                     }
                 }
                 Picker("Device Region", selection: Binding<String?>(
